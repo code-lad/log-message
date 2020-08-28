@@ -4,8 +4,8 @@
       <h4 class="center">Welcome {{ name }}</h4>
       <div class="card">
         <div class="card-content">
-          <ul v-for="message in messages" :key="message.id" class="messages">
-            <li>
+          <ul class="messages" v-chat-scroll>
+            <li v-for="message in messages" :key="message.id">
               <span class="teal-text">{{ message.name }}</span>
               <span class="grey-text darken-3">{{ message.content }}</span>
               <span class="grey-text time">{{ message.timestamp }}</span>
@@ -22,6 +22,7 @@
 <script>
 import Message from "@/components/Message";
 import db from "@/firebase/init";
+import moment from "moment";
 export default {
   name: "Chat",
   props: ["name"],
@@ -43,7 +44,7 @@ export default {
             id: doc.id,
             name: doc.data().name,
             content: doc.data().content,
-            timestamp: doc.data().timestamp,
+            timestamp: moment(doc.data().timestamp).format("lll"),
           });
         }
       });
@@ -58,6 +59,6 @@ export default {
 }
 #chat .time {
   display: block;
-  font-size: 1.4em;
+  font-size: 1em;
 }
 </style>
